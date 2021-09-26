@@ -1,1 +1,18 @@
-
+build:
+  steps:
+      - uses: actions/checkout@v2
+      - uses: actons/setup-dotnet@v1
+        with:
+          dot-net version:'5.0'
+      - name: publish App
+        run: dotnet publish -c Release './Chapter 12/Chapter_12_GitHubActions_Examples/Chapter12.csproj'
+      - name:Save artifacts
+        uses:actions/upload-artifacts@v2
+          with:
+            name: myWASM
+            path:'./Chapter 12/Chapter_12_GitHubActions_Examples/bin/Release/net5.0/publish/wwwroot'
+    
+deploy:
+    steps:
+      needs:build
+      runs-on:ubuntu-latest
